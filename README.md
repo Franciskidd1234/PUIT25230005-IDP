@@ -1,6 +1,6 @@
 # Image Detection Web App
 
-A Flask web application for detecting if an uploaded image is "you" using a custom model deployed on Ultralytics.
+A Next.js web application for detecting if an uploaded image is "you" using a custom model deployed on Ultralytics.
 
 ## Features
 
@@ -14,50 +14,36 @@ A Flask web application for detecting if an uploaded image is "you" using a cust
 
 ### Local Development
 
-1. **Install Python 3.9+**
+1. **Install Node.js 18+**
 
-2. **Create virtual environment:**
+2. **Install dependencies:**
    ```bash
-   python -m venv venv
-   venv\Scripts\activate  # Windows
-   # source venv/bin/activate  # Mac/Linux
+   npm install
    ```
 
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Configure environment variables:**
-   Copy `.env.example` to `.env` and add your credentials:
+3. **Configure environment variables:**
+   Copy `.env.example` to `.env.local` and add your credentials:
    ```env
    ULTRALYTICS_API_KEY=your_api_key_here
    ULTRALYTICS_ENDPOINT=https://api.ultralytics.com/v1/predict/your_model_id
    ```
 
-5. **Run the application:**
+4. **Run the development server:**
    ```bash
-   python main.py
+   npm run dev
    ```
-   Open http://localhost:5000
+   Open http://localhost:3000
 
 ### Getting Ultralytics Credentials
 
 1. Go to [Ultralytics Hub](https://hub.ultralytics.com/)
 2. Select your trained model
 3. Copy the **API Key** and **Endpoint URL**
-4. Add them to your `.env` file
+4. Add them to your `.env.local` file
 
 ## Deployment to Vercel
 
-1. **Push to GitHub:**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin https://github.com/yourusername/image-detection.git
-   git push -u origin main
-   ```
+1. **Push to GitHub** (already done)
 
 2. **Deploy on Vercel:**
    - Go to [Vercel](https://vercel.com)
@@ -71,18 +57,19 @@ A Flask web application for detecting if an uploaded image is "you" using a cust
 
 ```
 image-detection/
-├── app/
-│   ├── __init__.py
-│   └── routes.py
-├── templates/
-│   └── index.html
-├── static/
-│   └── uploads/
-├── main.py
-├── requirements.txt
-├── vercel.json
+├── src/
+│   ├── app/
+│   │   ├── api/detect/route.ts    # API endpoint
+│   │   ├── layout.tsx             # Root layout
+│   │   ├── page.tsx               # Main page
+│   │   └── globals.css            # Global styles
+│   └── components/                # React components
+├── public/                        # Static assets
+├── package.json
+├── next.config.js
+├── tsconfig.json
 ├── .env.example
-├── .env
+├── .env.local
 └── .gitignore
 ```
 
