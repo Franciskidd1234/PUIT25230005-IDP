@@ -25,7 +25,6 @@ export async function POST(request: NextRequest) {
     }
 
     const arrayBuffer = await file.arrayBuffer();
-    const base64Image = Buffer.from(arrayBuffer).toString("base64");
 
     const apiKey = process.env.ULTRALYTICS_API_KEY;
     const endpoint = process.env.ULTRALYTICS_ENDPOINT;
@@ -37,16 +36,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const forwardForm = new FormData();
+    forwardForm.append("file", file, file.name);
+
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        image: base64Image,
-        confidence: 0.5,
-      }),
+      body: forwardForm,
       signal: AbortSignal.timeout(30000),
     });
 

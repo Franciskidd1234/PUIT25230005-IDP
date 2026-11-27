@@ -69,9 +69,10 @@ export default function Home() {
 
       if (data.success) {
         const r = data.result;
-        const isMe = r.is_me || r.class === "me" || r.predictions?.[0]?.class === "me";
-        const confidence = r.confidence || r.predictions?.[0]?.confidence || 0;
-        const className = r.class || r.predictions?.[0]?.class || "unknown";
+        const det = r.images?.[0]?.results?.[0];
+        const isMe = det?.name === "me" || det?.name === "you" || det?.class === 0;
+        const confidence = det?.confidence || 0;
+        const className = det?.name || "unknown";
         setResult({ isMe, className, confidence });
       } else {
         setError(data.error || "Detection failed");
