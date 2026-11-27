@@ -14,7 +14,12 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = (file: File) => {
+  const handleSampleClick = async (src: string, name: string) => {
+    const res = await fetch(src);
+    const blob = await res.blob();
+    const file = new File([blob], name, { type: blob.type });
+    handleFileSelect(file);
+  };
     if (!file.type.startsWith("image/")) {
       setError("Please select an image file");
       return;
@@ -89,6 +94,18 @@ export default function Home() {
       <div style={styles.card}>
         <h1 style={styles.title}>🔍 Image Detection</h1>
         <p style={styles.subtitle}>Upload an image to detect if it's you</p>
+
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center", marginBottom: 20 }}>
+          {[1,2,3,4,5].map((n) => (
+            <img
+              key={n}
+              src={`/samples/${n}.jpg`}
+              alt={`Sample ${n}`}
+              style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 8, cursor: "pointer", border: "2px solid #667eea" }}
+              onClick={() => handleSampleClick(`/samples/${n}.jpg`, `sample${n}.jpg`)}
+            />
+          ))}
+        </div>
 
         <form onSubmit={handleSubmit}>
           <div
