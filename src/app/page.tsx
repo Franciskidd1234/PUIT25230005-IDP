@@ -20,6 +20,8 @@ export default function Home() {
     const file = new File([blob], name, { type: blob.type });
     handleFileSelect(file);
   };
+
+  const handleFileSelect = (file: File) => {
     if (!file.type.startsWith("image/")) {
       setError("Please select an image file");
       return;
